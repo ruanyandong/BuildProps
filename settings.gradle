@@ -1,0 +1,4 @@
+rootProject.name = "BuildProps"
+include ':app'
+include ':buildprops'
+include ':loader'

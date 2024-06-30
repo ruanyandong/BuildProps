@@ -1,0 +1,52 @@
+plugins {
+    id 'java-library'
+    id 'com.dong.buildprops'
+    id 'maven'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+group = 'com.dong.loader'
+version = '0.0.2'
+
+jar {
+    manifest {
+        attributes 'Group-Id': project.group
+        attributes 'Artifact-Id': project.name
+        attributes 'Version': project.version
+    }
+}
+
+task packageSources(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts.archives packageSources
+
+uploadArchives {
+
+
+    repositories {
+        mavenDeployer {
+            pom.project {
+                groupId project.group
+                artifactId project.name
+                version project.version
+                description project.description ?: ''
+            }
+
+            repository(url: uri('../repo'))
+
+//            repository(url: MAVEN_RELEASES_REPOSITORY_URL) {
+//                authentication(userName: MAVEN_USERNAME, password: MAVEN_PASSWORD)
+//            }
+//            snapshotRepository(url: MAVEN_SNAPSHOTS_REPOSITORY_URL) {
+//                authentication(userName: MAVEN_USERNAME, password: MAVEN_PASSWORD)
+//            }
+        }
+    }
+}
